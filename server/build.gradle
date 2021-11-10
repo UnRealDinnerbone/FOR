@@ -1,32 +1,59 @@
 plugins {
-    id 'java'
+	id 'com.github.johnrengelman.shadow' version '6.1.0'
+	id 'java'
+	id 'java-library'
 }
 
-group 'FOR'
-version '1.0-SNAPSHOT'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
-sourceCompatibility = 1.8
+
+group 'me.modmuss50'
+archivesBaseName = "forserver"
+
+version = '1.0.0'
+
+def ENV = System.getenv()
+def buildNumber = ENV.GITHUB_RUN_NUMBER ? "${ENV.GITHUB_RUN_NUMBER}" : "0"
+def theVersion = version + ("+build." + buildNumber).replace("\\", "")
+
 
 repositories {
-    mavenCentral()
-	jcenter()
+	mavenCentral()
+	maven { url "https://maven.google.com" }
+	maven {
+		url = "https://maven.unreal.codes/repository/unreal/"
+		name = "UnReal Maven"
+	}
+}
+
+configurations {
+	shade
+	implementation.extendsFrom shade
+	shadow.extendsFrom shade
 }
 
 dependencies {
-	compile 'es.usc.citius.hipster:hipster-all:1.0.1'
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
-	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
-	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-	compile 'io.javalin:javalin:2.6.0'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+	shade 'com.unrealdinnerbone:UnRealLib:3.2.0+build.65'
+
+	shade 'es.usc.citius.hipster:hipster-all:1.0.1'
+	shade group: 'commons-io', name: 'commons-io', version: '2.6'
+//	compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+//	compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+	shade 'io.javalin:javalin:4.1.1'
+
+}
+
+shadowJar {
+	manifest {
+		inheritFrom project.tasks.jar.manifest
+	}
 }
 
 jar {
 	manifest {
-		attributes "Main-Class": "me.modmuss50.forserver.Main"
-	}
-
-	from {
-		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+		attributes(
+				"Main-Class": "me.modmuss50.forserver.Main",
+				"Implementation-Version": theVersion
+		)
 	}
 }

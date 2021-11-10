@@ -1,10 +1,13 @@
 package me.modmuss50.forserver;
 
+import com.unrealdinnerbone.unreallib.json.JsonUtil;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.function.Predicate;
 
 public class DataManager {
 
-	public static File data = new File("for_data.json");
+	public static Path data = Path.of("for_data.json");
 
 	public HashMap<String, Types.Station> stations = new HashMap<>();
 	public HashMap<String, Types.Switch> switches = new HashMap<>();
@@ -34,16 +37,16 @@ public class DataManager {
 
 	public void save()  {
 		try {
-			FileUtils.writeStringToFile(data, Main.GSON.toJson(this), StandardCharsets.UTF_8);
+			Files.writeString(data, JsonUtil.DEFAULT.toJson(DataManager.class, this), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to save", e);
 		}
 	}
 
-	public static DataManager read() throws IOException {
-		if(data.exists()){
-			String json = FileUtils.readFileToString(data, StandardCharsets.UTF_8);
-			return Main.GSON.fromJson(json, DataManager.class);
+	public static DataManager read() throws Exception {
+		if(Files.exists(data)){
+			String json = Files.readString(data, StandardCharsets.UTF_8);
+			return JsonUtil.DEFAULT.parse(DataManager.class, json);
 		} else {
 			return new DataManager();
 		}
