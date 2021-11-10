@@ -25,14 +25,12 @@ local function dectectorMain()
     local data = json.decodeFromFile(dataFile)
 
     while true do
-        local event, color, minecartType, minecartName, color1, color2, destination, ownerName = os.pullEvent("minecart")
+        local cartName, destination = os.pullEvent("minecart")
         local passData = {
             info = data,
             minecart = {
-                type = minecartType,
-                name = minecartName,
-                dest = destination,
-                owner = ownerName
+                name = cartName,
+                dest = destination
             }
         }
         print(json.encodePretty(passData))

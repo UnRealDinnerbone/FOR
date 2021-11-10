@@ -41,10 +41,7 @@ public class Types {
 	}
 
 	public static class Minecart {
-		String type;
-		String name;
 		String dest;
-		String owner;
 	}
 
 	public static class ListRequest {

@@ -79,7 +79,7 @@ local function shouldSwitch(train)
 end
 
 local function onTrainPass(train)
-    print(train.minecart.type)
+    print(train.minecart.name)
 
     turn = shouldSwitch(train)
     hold = false
@@ -95,15 +95,12 @@ end
 local function waitForTrain()
     print("Waiting for train to pass")
     while true do
-        local event, color, minecartType, minecartName, color1, color2, destination, ownerName =
-            os.pullEvent("minecart")
+        local cartName, destination = os.pullEvent("minecart")
         local passData = {
             info = data,
             minecart = {
-                type = minecartType,
-                name = minecartName,
-                dest = destination,
-                owner = ownerName
+                name = cartName,
+                dest = destination
             }
         }
 
