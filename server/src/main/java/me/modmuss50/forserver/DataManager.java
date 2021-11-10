@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 
 public class DataManager {
 
-	public static Path data = Path.of("for_data.json");
+	public static Path data = Path.of("server_data").resolve(Path.of("for_data.json"));
 
 	public HashMap<String, Types.Station> stations = new HashMap<>();
 	public HashMap<String, Types.Switch> switches = new HashMap<>();
