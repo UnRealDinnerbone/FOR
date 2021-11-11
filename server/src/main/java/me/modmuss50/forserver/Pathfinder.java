@@ -37,7 +37,7 @@ public class Pathfinder {
 
 	public Types.ComputerData getNext(Types.ComputerData current, Types.ComputerData dest){
 		if(current == null || dest == null){
-			throw new RuntimeException("invalid point");
+			throw new RuntimeException("invalid point Current: " + current + " Dest: " + dest);
 		}
 		System.out.println("Requesting path find from " + current.name + " to " + dest.name);
 		Algorithm.SearchResult searchResult = pathFind(current, dest);

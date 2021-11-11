@@ -60,15 +60,19 @@ public class Main  {
 				Types.ComputerData current = dataManager.getByID(sw.info.id);
 				Pathfinder pathfinder = new Pathfinder();
 				pathfinder.build(dataManager);
-				Types.ComputerData next = pathfinder.getNext(current, dest);
-
-				SWITCH.info("Next point: {}", next.name);
-				Types.Switch aSwitch = (Types.Switch) current;
-				SWITCH.info("Turn to {}", aSwitch.turnsTo);
-				if(aSwitch.turnsTo.equalsIgnoreCase(next.name)){
-					SWITCH.info("Switching train onto other line");
-					shouldSwitch[0] = true;
+				try {
+					Types.ComputerData next = pathfinder.getNext(current, dest);
+					SWITCH.info("Next point: {}", next.name);
+					Types.Switch aSwitch = (Types.Switch) current;
+					SWITCH.info("Turn to {}", aSwitch.turnsTo);
+					if(aSwitch.turnsTo.equalsIgnoreCase(next.name)){
+						SWITCH.info("Switching train onto other line");
+						shouldSwitch[0] = true;
+					}
+				}catch(RuntimeException e) {
+					SWITCH.info("Error", e);
 				}
+
 			});
 
 			Types.SwitchResponse response = new Types.SwitchResponse();
