@@ -29,13 +29,14 @@ local function travel(destination)
     utils.message("Traveling to " .. destination, 1)
     utils.message("Printing ticket", 1)
 
-    local ticketMachine = peripheral.find("ticket_machine")
-    ticketMachine.setSelectedTicket(1)
-    ticketMachine.setDestination(1, destination)
-    local printed, error = ticketMachine.printTicket(1)
-    if not printed then
-        utils.message("Failed to print:" .. error, 5, colors.red)
-    end
+    --local ticketMachine = peripheral.find("ticket_machine")
+    --ticketMachine.setSelectedTicket(1)
+    --ticketMachine.setDestination(1, destination)
+    --local printed, error = ticketMachine.printTicket(1)
+    --if not printed then
+    --    utils.message("Failed to print:" .. error, 5, colors.red)
+    --end
+    print("Wanted to go to " .. destination)
 end
 
 local function drawScreen(data)
