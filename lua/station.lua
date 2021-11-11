@@ -117,8 +117,8 @@ local function stationMain()
 
     getStations()
 
-    local ticketMachine = peripheral.find("ticket_machine")
-    ticketMachine.setManualPrintingAllowed(false)
+    --local ticketMachine = peripheral.find("ticket_machine")
+    --ticketMachine.setManualPrintingAllowed(false)
 
     drawScreen(data, stations)
 end

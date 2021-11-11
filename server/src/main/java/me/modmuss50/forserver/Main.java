@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -31,21 +32,25 @@ public class Main  {
 
 		APP.get("/", ctx -> ctx.result("Hello"));
 
-		jsonPost(Types.Station.class, "/station/new", station -> {
+
+
+		//Todo add checking
+		jsonPost(Types.Station.class, Types.DefaultResponse.class, "/station/new", station -> {
 			STATION.info("New Station Added: {}", station.name);
 			dataManager.stations.put(station.id, station);
 			dataManager.save();
 			return null;
 		});
 
-		jsonPost(Types.Switch.class, "/switch/new", sw -> {
+		//Todo add checking
+		jsonPost(Types.Switch.class, Types.DefaultResponse.class, "/switch/new", sw -> {
 			SWITCH.info("New Switch Added: {}", sw.name);
 			dataManager.switches.put(sw.id, sw);
 			dataManager.save();
 			return null;
 		});
 
-		jsonPost(Types.SwitchRequest.class, "/switch/request", sw -> {
+		jsonPost(Types.SwitchRequest.class, Types.SwitchResponse.class, "/switch/request", sw -> {
 			SWITCH.info("Train requesting switching into at {}", sw.info.name);
 			final boolean[] shouldSwitch = { false };
 
@@ -71,7 +76,7 @@ public class Main  {
 			return response;
 		});
 
-		jsonPost(Types.ListRequest.class, "/computer/list", request -> {
+		jsonPost(Types.ListRequest.class, Types.ComputerList.class, "/computer/list", request -> {
 			Types.ComputerList list = new Types.ComputerList();
 			list.computers = dataManager.getAll().stream()
 				.filter(computerData -> {
@@ -93,14 +98,17 @@ public class Main  {
 		});
 	}
 
-	public static <T, R extends Types.DefaultResponse> void jsonPost(Class<T> type, String route, Function<T, R> function){
+	public static <T, R extends Types.DefaultResponse> void jsonPost(Class<T> type, Class<R> rClass, String route, Function<T, R> function){
 		APP.post(route, ctx -> {
 			T request = JsonUtil.DEFAULT.parse(type, ctx.body());
-			Types.DefaultResponse object = function.apply(request);
-			if(object == null) object = new Types.DefaultResponse();
-			object.status = "success";
-			String response = JsonUtil.DEFAULT.toJson(Types.DefaultResponse.class, object);
-			ctx.result(response);
+			R object = function.apply(request);
+			if(object == null) {
+				ctx.result(JsonUtil.DEFAULT.toJson(Types.DefaultResponse.class, new Types.DefaultResponse()));
+			}else {
+				object.status = "success";
+				String response = JsonUtil.DEFAULT.toJson(rClass, object);
+				ctx.result(response);
+			}
 		});
 	}
 
