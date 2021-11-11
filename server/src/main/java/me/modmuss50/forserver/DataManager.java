@@ -11,14 +11,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class DataManager {
 
 	public static Path data = Path.of("server_data").resolve(Path.of("for_data.json"));
 
-	public HashMap<String, Types.Station> stations = new HashMap<>();
-	public HashMap<String, Types.Switch> switches = new HashMap<>();
+	public Map<String, Types.Station> stations = new HashMap<>();
+	public Map<String, Types.Switch> switches = new HashMap<>();
 
 	public List<Types.ComputerData> getAll(){
 		List<Types.ComputerData> list = new ArrayList<>();
