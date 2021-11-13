@@ -3,7 +3,6 @@ os.loadAPI("utils.lua")
 local dataFile = "switch.json"
 local data = {}
 local args = {...}
-local bundled = "back"
 local hold = true
 local turn = false
 
@@ -51,6 +50,7 @@ local function updateConnections()
     utils.messageTerm("Switch data updated")
 end
 
+
 --Resets the system to be ready for the next train
 local function updateRedstone()
     local color = colors.combine(colors.red, colors.green)
@@ -60,7 +60,9 @@ local function updateRedstone()
     if not turn then
         color = colors.subtract(color, colors.green)
     end
-    redstone.setBundledOutput(bundled, color)
+    for _, side in pairs(rs.getSides()) do
+        redstone.setBundledOutput(side, color)
+    end
 end
 
 local function resetSystem()
