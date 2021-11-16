@@ -33,7 +33,7 @@ configurations {
 }
 
 dependencies {
-	shade 'com.unrealdinnerbone:UnRealLib:3.2.0+build.65'
+	shade 'com.unrealdinnerbone:UnRealLib:3.2.0+build.70'
 
 	shade 'es.usc.citius.hipster:hipster-all:1.0.1'
 	shade group: 'commons-io', name: 'commons-io', version: '2.6'
