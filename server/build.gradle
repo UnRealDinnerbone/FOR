@@ -21,7 +21,7 @@ repositories {
 	mavenCentral()
 	maven { url "https://maven.google.com" }
 	maven {
-		url = "https://maven.unreal.codes/repository/unreal/"
+		url = "https://maven.unreal.codes/releases/"
 		name = "UnReal Maven"
 	}
 }
