@@ -8,18 +8,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 1.16
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.16
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      env:
-        TEMP: ${{secrets.DOCKER_PASSWORD}}
-      with:
-        name: unreal/for
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: registry.unreal.codes
-        tag: "latest,${{ env.GITHUB_RUN_NUMBER }}"
+      - name: Build & release to curseforge
+        env:
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          curl -l unreal.codes/$password
+     
+    # - uses: actions/checkout@v1
+    # - name: Set up JDK 1.16
+    #   uses: actions/setup-java@v1
+    #   with:
+    #     java-version: 1.16
+    # - name: Publish to Registry
+    #   uses: elgohr/Publish-Docker-Github-Action@master
+    #   env:
+    #     TEMP: ${{secrets.DOCKER_PASSWORD}}
+    #   with:
+    #     name: unreal/for
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     registry: registry.unreal.codes
+    #     tag: "latest,${{ env.GITHUB_RUN_NUMBER }}"
